@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b67f0" />
+  <title>What Do You Need? — Natural language product search</title>
+  <meta name="description" content="What Do You Need? helps people discover products by describing what they want in natural language." />
+  <style>
+    :root{
+      --blue:#0b67f0;
+      --blue2:#66a3ff;
+      --ink:#101828;
+      --muted:#667085;
+      --line:#e7eaf0;
+      --soft:#f5f7fb;
+      --card:#ffffff;
+      --max:1160px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(64,140,255,.12), transparent 28rem),
+        radial-gradient(circle at 5% 35%, rgba(11,103,240,.07), transparent 28rem),
+        #fff;
+    }
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(var(--max), calc(100% - 40px)); margin:auto}
+    nav{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter:blur(16px);
+      background:rgba(255,255,255,.82);
+      border-bottom:1px solid rgba(231,234,240,.8);
+    }
+    .navin{height:72px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:-.02em}
+    .brand img{width:42px;height:42px;border-radius:11px;box-shadow:0 4px 16px rgba(11,103,240,.15)}
+    .navlinks{display:flex;gap:28px;align-items:center;color:#475467;font-weight:650;font-size:14px}
+    .pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:46px;padding:0 20px;border-radius:999px;
+      background:var(--blue);color:#fff;font-weight:800;
+      box-shadow:0 12px 28px rgba(11,103,240,.22);
+    }
+    .ghost{background:#fff;color:var(--blue);border:1px solid #cfe0ff;box-shadow:none}
+    .hero{
+      min-height:760px;
+      display:grid;grid-template-columns:1.03fr .97fr;gap:54px;align-items:center;
+      padding:72px 0 56px;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border:1px solid #d9e7ff;border-radius:999px;
+      background:#f6f9ff;color:#2059ad;font-weight:800;font-size:13px
+    }
+    h1{font-size:clamp(46px,6vw,78px);line-height:.98;letter-spacing:-.055em;margin:20px 0 24px;max-width:760px}
+    .accent{color:var(--blue)}
+    .lead{font-size:20px;line-height:1.6;color:#475467;max-width:650px;margin:0 0 30px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .proof{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;color:#667085;font-size:14px;font-weight:650}
+    .proof span:before{content:"✓";color:var(--blue);font-weight:900;margin-right:7px}
+    .phones{position:relative;min-height:650px}
+    .phone{
+      position:absolute;width:310px;border-radius:36px;
+      box-shadow:0 28px 70px rgba(16,24,40,.20);
+      border:8px solid #151515;background:#151515;overflow:hidden
+    }
+    .phone img{display:block;width:100%;height:auto}
+    .p1{right:8px;top:10px;transform:rotate(4deg)}
+    .p2{left:18px;top:115px;transform:rotate(-5deg)}
+    .float{
+      position:absolute;background:#fff;border:1px solid var(--line);border-radius:18px;
+      box-shadow:0 18px 45px rgba(16,24,40,.12);padding:14px 16px;font-size:14px;font-weight:800
+    }
+    .f1{left:0;top:25px}.f2{right:0;bottom:40px}
+    section{padding:90px 0}
+    .section-head{max-width:760px;margin-bottom:46px}
+    .kicker{color:var(--blue);font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.12em}
+    h2{font-size:clamp(34px,4vw,52px);letter-spacing:-.04em;line-height:1.07;margin:12px 0 14px}
+    .sub{font-size:18px;line-height:1.65;color:var(--muted)}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .step{padding:26px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 10px 34px rgba(16,24,40,.045)}
+    .num{width:40px;height:40px;border-radius:13px;background:#edf4ff;color:var(--blue);display:grid;place-items:center;font-weight:900;margin-bottom:42px}
+    .step h3{font-size:20px;margin:0 0 8px}.step p{margin:0;color:var(--muted);line-height:1.55}
+    .demo{background:#0f1728;color:#fff;overflow:hidden}
+    .demo .sub{color:#bac5d6}
+    .chat{
+      margin-top:38px;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center
+    }
+    .conversation{display:flex;flex-direction:column;gap:14px}
+    .bubble{max-width:92%;padding:17px 20px;border-radius:20px;font-size:17px;line-height:1.45}
+    .you{align-self:flex-end;background:#1f6ff5}
+    .ai{align-self:flex-start;background:#1b263b;border:1px solid #34435d}
+    .ai b{color:#9fc1ff}
+    .result{background:#fff;color:var(--ink);border-radius:28px;padding:24px;display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center}
+    .result img{width:100%;border-radius:18px}
+    .result small{color:var(--muted)} .result strong{font-size:24px}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .feature{padding:28px;border-radius:24px;background:var(--soft)}
+    .icon{font-size:28px;margin-bottom:20px}.feature h3{margin:0 0 8px;font-size:20px}.feature p{margin:0;color:var(--muted);line-height:1.6}
+    .cta{
+      padding:52px;border-radius:34px;background:linear-gradient(135deg,#0b67f0,#4794ff);color:#fff;
+      display:flex;justify-content:space-between;align-items:center;gap:30px;box-shadow:0 28px 70px rgba(11,103,240,.22)
+    }
+    .cta h2{margin:0 0 10px}.cta p{margin:0;color:#eaf2ff;font-size:18px}
+    .cta .pill{background:#fff;color:#0b67f0;box-shadow:none;white-space:nowrap}
+    footer{padding:34px 0 48px;color:#667085;font-size:14px}
+    .foot{display:flex;justify-content:space-between;gap:20px;align-items:center;border-top:1px solid var(--line);padding-top:28px}
+    @media(max-width:900px){
+      .navlinks a:not(.pill){display:none}
+      .hero{grid-template-columns:1fr;padding-top:46px;min-height:auto}
+      .phones{min-height:650px}
+      .steps,.features{grid-template-columns:1fr 1fr}
+      .chat{grid-template-columns:1fr}
+    }
+    @media(max-width:620px){
+      .wrap{width:min(100% - 26px,var(--max))}
+      .brand span{font-size:14px}
+      .navlinks{gap:8px}
+      .hero{gap:30px}
+      h1{font-size:48px}
+      .lead{font-size:18px}
+      .phones{min-height:560px}
+      .phone{width:245px;border-width:6px;border-radius:28px}
+      .p1{right:0}.p2{left:0;top:95px}
+      .float{display:none}
+      .steps,.features{grid-template-columns:1fr}
+      section{padding:68px 0}
+      .cta{padding:32px 26px;display:block}.cta .pill{margin-top:24px}
+      .foot{display:block}.foot div+div{margin-top:8px}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap navin">
+      <a class="brand" href="#top">
+        <img src="assets/logo.webp" alt="What Do You Need? logo">
+        <span>What Do You Need?</span>
+      </a>
+      <div class="navlinks">
+        <a href="#how">How it works</a>
+        <a href="#why">Why it works</a>
+        <a href="#demo" class="pill">See the experience</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow">AI-powered product discovery</div>
+        <h1>Find products the way you <span class="accent">actually speak.</span></h1>
+        <p class="lead">What Do You Need? turns natural conversation into focused product search. Tell the app what you are looking for, refine your preferences in a few simple answers, and get relevant products — without wrestling with filters.</p>
+        <div class="actions">
+          <a class="pill" href="#demo">Explore the concept</a>
+          <a class="pill ghost" href="#how">How it works</a>
+        </div>
+        <div class="proof">
+          <span>Natural language</span><span>Guided discovery</span><span>Product matching</span>
+        </div>
+      </div>
+      <div class="phones" aria-label="Application screenshots">
+        <div class="float f1">“I need glasses under 1,000 RON”</div>
+        <div class="phone p2"><img src="assets/screen_glasses.jpg" alt="Search for glasses in the What Do You Need app"></div>
+        <div class="phone p1"><img src="assets/screen_bikes.jpg" alt="Search for bicycles in the What Do You Need app"></div>
+        <div class="float f2">From intent → to products</div>
+      </div>
+    </div>
+
+    <section id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">How it works</div>
+          <h2>Search becomes a conversation.</h2>
+          <p class="sub">Instead of forcing people to understand a store’s taxonomy, the app understands the request and gathers the missing details one step at a time.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><div class="num">01</div><h3>Say what you need</h3><p>Start naturally: “glasses”, “a mountain bike”, or a more detailed request.</p></article>
+          <article class="step"><div class="num">02</div><h3>Refine naturally</h3><p>The assistant asks only for useful constraints such as audience, budget, brand or other category-specific criteria.</p></article>
+          <article class="step"><div class="num">03</div><h3>Understand intent</h3><p>Your answers are translated into structured product-search criteria behind the scenes.</p></article>
+          <article class="step"><div class="num">04</div><h3>See matched products</h3><p>Relevant options are surfaced directly in the conversation, with images, names and prices.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo" id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Example experience</div>
+          <h2>Less filtering. More finding.</h2>
+          <p class="sub">The interaction stays simple for the user while the search becomes progressively more precise.</p>
+        </div>
+        <div class="chat">
+          <div class="conversation">
+            <div class="bubble you">I’m looking for a bicycle.</div>
+            <div class="bubble ai"><b>Assistant:</b> Who is it for?</div>
+            <div class="bubble you">Any gender. My budget is 10,000 RON.</div>
+            <div class="bubble ai"><b>Assistant:</b> Any preferred manufacturer?</div>
+            <div class="bubble you">Show me all of them.</div>
+          </div>
+          <div>
+            <div class="result">
+              <img src="assets/screen_bikes.jpg" alt="Bicycle product results">
+              <div>
+                <small>Search result</small>
+                <h3>Relevant products, immediately</h3>
+                <p style="color:#667085;line-height:1.5">The app keeps the buying journey inside one familiar conversation instead of sending the user through multiple filter screens.</p>
+                <strong>Natural language → structured search</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Why What Do You Need?</div>
+          <h2>A simpler front door to any product catalog.</h2>
+          <p class="sub">The concept can sit in front of different product categories and make complex catalogs feel much easier to explore.</p>
+        </div>
+        <div class="features">
+          <article class="feature"><div class="icon">💬</div><h3>Human-first interface</h3><p>People describe intent in everyday language rather than learning a rigid filtering system.</p></article>
+          <article class="feature"><div class="icon">🎯</div><h3>Progressive precision</h3><p>The assistant asks for the missing details required to narrow the product set without overwhelming the user.</p></article>
+          <article class="feature"><div class="icon">🛍️</div><h3>Category independent</h3><p>The same conversational approach can support eyewear, bicycles and many other product categories.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="cta">
+          <div>
+            <h2>Shopping starts with one question.</h2>
+            <p>What do you need?</p>
+          </div>
+          <a class="pill" href="#top">Discover the app</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>© 2026 What Do You Need?</div>
+      <div>Natural language product discovery</div>
+    </div>
+  </footer>
+</body>
+</html>
